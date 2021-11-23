@@ -1,5 +1,6 @@
 import { HttpService, } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
+import { RedisClient } from '../common/redis-client';
 import { Application } from './entities/application.entity';
 
 @Injectable()
@@ -10,7 +11,9 @@ export class ApplicationsService {
   }
 
   async getTop(type: ApplicationTypes, count: number): Promise<Application[]> {
+    const redisClient = new RedisClient();
     const response = await this.httpService.get(`https://rss.applemarketingtools.com/api/v2/us/apps/top-${type}/${count}/apps.json`).toPromise();
+    redisClient.setCache('applications-top', JSON.stringify(response.data.feed.results))
     return response.data.feed.results;
   }
 

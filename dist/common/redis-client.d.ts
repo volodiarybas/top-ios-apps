@@ -1,7 +1,8 @@
 import * as redis from 'redis';
 export declare class RedisClient {
     portRedis: string;
-    redisClient: redis.RedisClient;
+    client: redis.RedisClient;
+    getAsync: any;
     setCache(key: string, value: string): boolean;
     getCache(key: string): Promise<string>;
 }

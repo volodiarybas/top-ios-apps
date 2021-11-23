@@ -21,7 +21,7 @@ let ApplicationsService = class ApplicationsService {
     }
     async getTop(type, count) {
         const redisClient = new redis_client_1.RedisClient();
-        const response = await this.httpService.get(`http://localhost:3300/`).toPromise();
+        const response = await this.httpService.get(`https://rss.applemarketingtools.com/api/v2/us/apps/top-${type}/${count}/apps.json`).toPromise();
         redisClient.setCache('applications-top', JSON.stringify(response.data.feed.results));
         return response.data.feed.results;
     }

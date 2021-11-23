@@ -11,7 +11,13 @@ const common_1 = require("@nestjs/common");
 const app_controller_1 = require("./app.controller");
 const app_service_1 = require("./app.service");
 const applications_module_1 = require("./applications/applications.module");
+const top_applications_cache_middleware_1 = require("./middlewares/top-applications-cache.middleware");
 let AppModule = class AppModule {
+    configure(consumer) {
+        consumer
+            .apply(top_applications_cache_middleware_1.TopApplicationsCache)
+            .forRoutes('applications');
+    }
 };
 AppModule = __decorate([
     (0, common_1.Module)({

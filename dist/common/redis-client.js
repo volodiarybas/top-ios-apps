@@ -2,25 +2,27 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.RedisClient = void 0;
 const redis = require("redis");
+const { promisify } = require("util");
 class RedisClient {
     constructor() {
         this.portRedis = process.env.PORT_REDIS || '6379';
-        this.redisClient = redis.createClient(this.portRedis);
+        this.client = redis.createClient(this.portRedis);
+        this.getAsync = promisify(this.client.get).bind(this.client);
     }
     setCache(key, value) {
-        return this.redisClient.set(key, value);
+        return this.client.set(key, value);
     }
     async getCache(key) {
-        let cachedData;
-        await this.redisClient.get(key, function (error, data) {
-            if (error)
-                throw error;
-            if (data) {
-                cachedData = data;
-            }
+        return new Promise((resolve, reject) => {
+            return this.getAsync(key).then(function (res) {
+                if (res == null) {
+                    reject("fail promise");
+                }
+                else {
+                    resolve(res);
+                }
+            });
         });
-        console.log({ cachedData });
-        return cachedData;
     }
 }
 exports.RedisClient = RedisClient;
