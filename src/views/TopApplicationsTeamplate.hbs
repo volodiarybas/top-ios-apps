@@ -1,0 +1,21 @@
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>App</title>
+    </head>
+    <body>
+        <ol>
+            {{#each applications}}
+                <li>
+                    <h2>{{this.name}}</h2>
+                    <h3>Author:  {{this.artistName}}</h3>
+                    <h4>Release Date:  {{this.releaseDate}}</h4>
+                    <h3>Genres: </h3>
+                    {{#each genres}}
+                        <h4>{{this.name}}</h4>
+                    {{/each}}
+                </li>
+            {{/each}}
+        </ol>
+    </body>
+</html>
