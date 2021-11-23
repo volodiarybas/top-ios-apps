@@ -1,5 +1,5 @@
 import * as redis from 'redis';
-const { promisify } = require("util");
+import { promisify } from "util";
 
 export class RedisClient {
     portRedis = process.env.PORT_REDIS || '6379';
@@ -13,11 +13,7 @@ export class RedisClient {
     async getCache(key: string): Promise<string> {
         return new Promise((resolve, reject) => {
             return this.getAsync(key).then(function(res) {
-                if (res == null) {
-                    reject("fail promise");
-                } else {
-                    resolve(res);
-                }
+                resolve(res);
             });
         });
     }

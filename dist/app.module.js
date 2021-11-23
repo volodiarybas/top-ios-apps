@@ -16,7 +16,7 @@ let AppModule = class AppModule {
     configure(consumer) {
         consumer
             .apply(top_applications_cache_middleware_1.TopApplicationsCache)
-            .forRoutes('applications');
+            .forRoutes({ path: 'applications', method: common_1.RequestMethod.GET });
     }
 };
 AppModule = __decorate([

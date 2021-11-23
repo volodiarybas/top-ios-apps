@@ -1,18 +1,27 @@
 
 import { Injectable, NestMiddleware } from '@nestjs/common';
+import { throws } from 'assert';
 import { Request, Response, NextFunction } from 'express';
+import { ApplicationsService } from 'src/applications/applications.service';
 import { RedisClient } from "../common/redis-client";
 
 @Injectable()
 export class TopApplicationsCache implements NestMiddleware {
-  redisClient = new RedisClient();
+  private redisClient: RedisClient;
+
+  constructor() {
+    this.redisClient = new RedisClient();
+  }
 
   async use(req: Request, res: Response, next: NextFunction) {
-    const applicationsTopCache = await this.redisClient.getCache('applications-top');
+    const applicationsCount = +req.query.count;
+    const applicationsType = req.params.type;
+
+    const applicationsTopCache = await this.redisClient.getCache(`applications-${applicationsType}-top`);
+
     if (applicationsTopCache) {
-      res.end(applicationsTopCache);
-    } else {
-      next();
+      res.end(applicationsTopCache.slice(0, applicationsCount));
     }
+    next();
   }
 }

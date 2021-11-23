@@ -12,21 +12,20 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ApplicationsService = void 0;
 const axios_1 = require("@nestjs/axios");
 const common_1 = require("@nestjs/common");
-const redis_client_1 = require("../common/redis-client");
 let ApplicationsService = class ApplicationsService {
     constructor(httpService) {
         this.httpService = httpService;
     }
-    async findAll() {
-    }
-    async getTop(type, count) {
-        const redisClient = new redis_client_1.RedisClient();
-        const response = await this.httpService.get(`https://rss.applemarketingtools.com/api/v2/us/apps/top-${type}/${count}/apps.json`).toPromise();
-        redisClient.setCache('applications-top', JSON.stringify(response.data.feed.results));
+    async getTop(type) {
+        const response = await this.httpService.get(`https://rss.applemarketingtools.com/api/v2/us/apps/top-${type}/100/apps.json`)
+            .toPromise()
+            .catch(error => {
+            throw error;
+        });
         return response.data.feed.results;
     }
     async isTopUpdated(type, currentTop = []) {
-        const updatedTop = await this.getTop(type, 10);
+        const updatedTop = await this.getTop(type);
         const isWithoutUpdates = updatedTop.every((application, index) => application.id === currentTop[index].id);
         return !isWithoutUpdates;
     }

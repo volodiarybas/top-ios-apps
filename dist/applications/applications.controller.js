@@ -16,30 +16,30 @@ exports.ApplicationsController = void 0;
 const common_1 = require("@nestjs/common");
 const applications_service_1 = require("./applications.service");
 const rxjs_1 = require("rxjs");
+const redis_client_1 = require("../common/redis-client");
 let ApplicationsController = class ApplicationsController {
     constructor(applicationsService) {
         this.applicationsService = applicationsService;
+        this.redisClient = new redis_client_1.RedisClient();
     }
     async getTop(type, count) {
-        const applications = await this.applicationsService.getTop(type, count);
+        const applicationsTop = await this.applicationsService.getTop(type);
+        this.redisClient.setCache(`applications-${type}-top`, JSON.stringify(applicationsTop));
         return {
-            applications: applications
+            applications: applicationsTop.splice(0, count)
         };
     }
     async updatesSubscribe(type) {
-        let currentTop = await this.applicationsService.getTop(type, 10);
-        return (0, rxjs_1.interval)(2000).pipe((0, rxjs_1.concatMap)(async (_) => {
+        let currentTop = await this.applicationsService.getTop(type);
+        return (0, rxjs_1.interval)(1000 * 60).pipe((0, rxjs_1.concatMap)(async (_) => {
+            let isTopUpdatedStatus = 'Top-10 the most popular iOS appllications has not been changed';
             if (await this.applicationsService.isTopUpdated(type, currentTop)) {
-                currentTop = await this.applicationsService.getTop(type, 10);
-                return {
-                    data: {
-                        message: 'Top-10 the most popular iOS appllications has been changed'
-                    }
-                };
+                currentTop = await this.applicationsService.getTop(type);
+                isTopUpdatedStatus = 'Top-10 the most popular iOS appllications has been changed';
             }
             return {
                 data: {
-                    message: 'Top-10 the most popular iOS appllications has not been changed'
+                    message: isTopUpdatedStatus
                 }
             };
         }));
@@ -51,14 +51,14 @@ __decorate([
     __param(0, (0, common_1.Param)('type')),
     __param(1, (0, common_1.Query)('count')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number, Number]),
+    __metadata("design:paramtypes", [String, Number]),
     __metadata("design:returntype", Promise)
 ], ApplicationsController.prototype, "getTop", null);
 __decorate([
     (0, common_1.Sse)(':type/updates-subscribe'),
     __param(0, (0, common_1.Param)('type')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number]),
+    __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], ApplicationsController.prototype, "updatesSubscribe", null);
 ApplicationsController = __decorate([
