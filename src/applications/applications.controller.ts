@@ -1,14 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, MessageEvent, Render, Query, Sse, Res } from '@nestjs/common';
+import { Controller, Get, Param, Query, Sse } from '@nestjs/common';
 import { ApplicationsService } from './applications.service';
-import { Observable, interval, map, timer, concatMap } from 'rxjs';
-import { response, Response } from 'express';
-import { Application } from './entities/application.entity';
-import { RedisClient } from 'src/common/redis-client';
+import { interval, concatMap } from 'rxjs';
+import { RedisClient } from '../common/redis-client';
 
 
 @Controller('applications')
 export class ApplicationsController {
-  private redisClient: RedisClient;
+  redisClient: RedisClient;
 
   constructor(
     private readonly applicationsService: ApplicationsService

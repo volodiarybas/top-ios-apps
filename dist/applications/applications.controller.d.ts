@@ -1,14 +1,13 @@
 import { ApplicationsService } from './applications.service';
-import { Observable } from 'rxjs';
-import { Application } from './entities/application.entity';
+import { RedisClient } from '../common/redis-client';
 export declare class ApplicationsController {
     private readonly applicationsService;
-    private redisClient;
+    redisClient: RedisClient;
     constructor(applicationsService: ApplicationsService);
     getTop(type: string, count: number): Promise<{
-        applications: Application[];
+        applications: import("./entities/application.entity").Application[];
     }>;
-    updatesSubscribe(type: string): Promise<Observable<{
+    updatesSubscribe(type: string): Promise<import("rxjs").Observable<{
         data: {
             message: string;
         };
