@@ -17,11 +17,10 @@ export class ApplicationsController {
     }
 
   @Get(':type')
-  @Render('TopApplicationsTeamplate')
   async getTop( 
     @Param('type') type: string,
     @Query('count') count: number
-    ) {
+  ) {
     const applicationsTop = await this.applicationsService.getTop(type);
     this.redisClient.setCache(`applications-${type}-top`, JSON.stringify(applicationsTop));
 
@@ -41,7 +40,7 @@ export class ApplicationsController {
         let isTopUpdatedStatus = 'Top-10 the most popular iOS appllications has not been changed';
         if (await this.applicationsService.isTopUpdated(type, currentTop)) {
          currentTop = await this.applicationsService.getTop(type);
-         isTopUpdatedStatus = 'Top-10 the most popular iOS appllications has been changed'
+         isTopUpdatedStatus = 'Top-10 the most popular iOS appllications has been changed';
         }
 
         return {

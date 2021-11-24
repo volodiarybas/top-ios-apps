@@ -11,7 +11,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TopApplicationsCache = void 0;
 const common_1 = require("@nestjs/common");
-const applications_service_1 = require("../applications/applications.service");
 const redis_client_1 = require("../common/redis-client");
 let TopApplicationsCache = class TopApplicationsCache {
     constructor() {

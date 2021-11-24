@@ -1,8 +1,6 @@
 
 import { Injectable, NestMiddleware } from '@nestjs/common';
-import { throws } from 'assert';
 import { Request, Response, NextFunction } from 'express';
-import { ApplicationsService } from 'src/applications/applications.service';
 import { RedisClient } from "../common/redis-client";
 
 @Injectable()

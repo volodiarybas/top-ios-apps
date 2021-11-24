@@ -47,7 +47,6 @@ let ApplicationsController = class ApplicationsController {
 };
 __decorate([
     (0, common_1.Get)(':type'),
-    (0, common_1.Render)('TopApplicationsTeamplate'),
     __param(0, (0, common_1.Param)('type')),
     __param(1, (0, common_1.Query)('count')),
     __metadata("design:type", Function),
