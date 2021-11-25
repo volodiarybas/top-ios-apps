@@ -35,15 +35,15 @@ export class ApplicationsController {
     let currentTop = await this.applicationsService.getTop(type);
     return interval(1000 * 60).pipe(
       concatMap(async (_) => {
-        let isTopUpdatedStatus = 'Top-10 the most popular iOS appllications has not been changed';
+        let message = 'Top-10 the most popular iOS appllications has not been changed';
         if (await this.applicationsService.isTopUpdated(type, currentTop)) {
          currentTop = await this.applicationsService.getTop(type);
-         isTopUpdatedStatus = 'Top-10 the most popular iOS appllications has been changed';
+         message = 'Top-10 the most popular iOS appllications has been changed';
         }
 
         return {
           data: {
-            message: isTopUpdatedStatus
+            message: message
           }
         }
 
