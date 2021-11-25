@@ -351,3 +351,6 @@ MigrationBackup/
 
 # dist folder
 dist/
+
+# Enviroment variables
+.env

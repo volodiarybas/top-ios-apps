@@ -13,6 +13,8 @@ Application for getting information about the most popular iOS apps;
     ```
 
 ### How to start
+    At the begin you should to create  `.env` file the same as `.env.example`
+    
     You should run your redis server: 
     ```
     redis-server

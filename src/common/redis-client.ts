@@ -2,7 +2,7 @@ import * as redis from 'redis';
 import { promisify } from "util";
 
 export class RedisClient {
-    portRedis = process.env.PORT_REDIS || '6379';
+    portRedis = process.env.PORT_REDIS;
     client = redis.createClient(this.portRedis);
     getAsync = promisify(this.client.get).bind(this.client);
 
