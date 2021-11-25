@@ -7,7 +7,8 @@ export class RedisClient {
     getAsync = promisify(this.client.get).bind(this.client);
 
     setCache(key: string, value: string): boolean {
-        return this.client.set(key , value);
+        this.client.set(key , value);
+        return this.client.expire(key, 1000 * 60 * 30)
     }
 
     async getCache(key: string): Promise<string> {

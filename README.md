@@ -2,10 +2,10 @@
 Application for getting information about the most popular iOS apps;
 
 ## Instalation
-    Use npm package manager to install all depencies:
-    ~~~npm install~~~
+Use npm package manager to install all depencies:
+    npm install~~~
 
-    Also Redis should be installed on your PC:
+Also Redis should be installed on your PC:
     ~~~brew install redis~~~
 
 ### How to start
