@@ -1,4 +1,0 @@
-enum ApplicationTypes {
-    "Paid",
-    "Free",
-}
