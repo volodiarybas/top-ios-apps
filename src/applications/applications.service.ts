@@ -5,7 +5,7 @@ import { Application } from './entities/application.entity';
 @Injectable()
 export class ApplicationsService {
 
-  constructor(private httpService: HttpService) {
+  constructor(public httpService: HttpService) {
   }
 
   async getTop(type: string): Promise<Application[]> {
